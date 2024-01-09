@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block navbar %}
+    {# {{ user.id }} #}
+{% endblock %}
+
+{% block content %}
+    {% for item in items %}
+        <div>
+            {{ item.id }}
+            {{ item.name }}
+        </div>
+    {% endfor %}
+{% endblock %}
