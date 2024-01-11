@@ -10,10 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ItemController extends AbstractController
 {
-    #[Route('/items', name:'item-view')]
-    public function show(EntityManagerInterface $entityManager): Response
+    #[Route('/items/{pageNumber}', name:'item-view')]
+    public function show(EntityManagerInterface $entityManager, array $_route_params): Response
     {
-        $items = $entityManager->getRepository(Item::class)->findAll();
+        $itemByPages = 10;
+        // $items = $entityManager->getRepository(Item::class)->findAll();
+        $items = $entityManager->getRepository(Item::class)->findBy([], null, $itemByPages, $_route_params['pageNumber'] * $itemByPages);
 
         if (!$items) {
             throw $this->createNotFoundException(
@@ -21,10 +23,6 @@ class ItemController extends AbstractController
             );
         }
 
-        return $this->render('layout.html.twig', ['items'=>$items]);
-
-        // or render a template
-        // in the template, print things with {{ Item.name }}
-        // return $this->render('Item/show.html.twig', ['Item' => $Item]);
+        return $this->render('layout.html.twig', ['items' => $items]);
     }
 }
