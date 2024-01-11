@@ -1,13 +1,13 @@
 # Examen PHP/Symfony
 
-Distribué le 9 janvier 2024 
+Distribué le 9 janvier 2024
 
 À rendre le 26 janvier 2024
 
-L'objectif de cet examen est de réaliser une application web de gestion de contenus en PHP/Symfony afin de valider les acquis. 
-Vous devrez jouer le rôle d'un développeur qui doit réaliser une application web pour un client sous la supervision d'un tech lead. Votre application sera soumise à l'équipe qualité qui validera le bon comportement de votre application. 
+L'objectif de cet examen est de réaliser une application web de gestion de contenus en PHP/Symfony afin de valider les acquis.
+Vous devrez jouer le rôle d'un développeur qui doit réaliser une application web pour un client sous la supervision d'un tech lead. Votre application sera soumise à l'équipe qualité qui validera le bon comportement de votre application.
 
-Le projet est individuel. 
+Le projet est individuel.
 
 Le sujet est découpé en plusieurs parties qui permettent de valider les compétences suivantes:
 
@@ -55,7 +55,7 @@ N'hésitez pas à créer plusieurs templates réutilisables, et pensez à la str
 Avoir une application responsive n'est pas demandé ni noté. Partez du principe qu'une largeur d'écran minimal de 1200px est disponible.
 Le rendu de l'application n'est pas noté, mais elle doit être fonctionnelle et utilisable. Utilisez les intégrations/bundles Tailwind ou Bootstrap afin de gagner du temps.
 
-Les contenus sur la page d'accueil doivent être paginés, et il doit être possible d'utiliser la pagination. 
+Les contenus sur la page d'accueil doivent être paginés, et il doit être possible d'utiliser la pagination.
 
 Enfin ajoutez une page dédiée, qui permet de consulter le contenu dans son intégralité.
 
@@ -103,17 +103,32 @@ Enfin, vous protégerez cette page afin qu'elle soit uniquement accessible aux r
 
 Les contenus doivent à présent être validés par un éditeur avant d'être publiés.
 
-Faites évoluer les fixtures, afin d'avoir un éditeur pour valider des contenus, et vos contenus pour en avoir des validés et des non validés. 
+Faites évoluer les fixtures, afin d'avoir un éditeur pour valider des contenus, et vos contenus pour en avoir des validés et des non validés.
 Faites également évoluer votre base de données, pour ajouter un statut de publication à vos contenus, et une date de changement de statut.
 Seuls les contenus validés sont maintenant visible sur la page d'accueil.
 
 Ajoutez une nouvelle page dans votre application qui permettra aux éditeurs:
-  - de voir les contenus en attente de validation.
-  - de valider un contenu.
-  - d'archiver un contenu.
-  - de modifier un contenu.
+
+- de voir les contenus en attente de validation.
+- de valider un contenu.
+- d'archiver un contenu.
+- de modifier un contenu.
 
 Lors de la modification d'un contenu par un éditeur, uniquement les tags et la date de publication sont modifiables.
 
 En bonus, vous pouvez utiliser le composant `symfony/workflow` pour gérer le cycle de vie des contenus.
 
+---
+
+## Quatrième Partie
+
+**Utiliser des commandes pour maintenir votre application.**
+
+Nous allons maintenant mettre en place des commandes afin de pouvoir maintenir votre application de manière pérenne.
+
+La première commande que vous allez créer de permettre de lister tous les contenus archivés. Pour cela, vous utiliserez un rendu au format table.
+
+La seconde commande que vous allez créer de permettre d'archiver tous les contenus non validés, vous devez afficher une barre de progression au fil des suppressions.
+
+La troisième doit permettre de valider un contenu, en fonction de son identifiant.
+Pour cela, vous devez soit fournir l'identifiant en tant que paramètre de votre commande, en dans le cas ou celui-ci ne serait pas fourni par l'utilisateur, une question interactive sera affichée pour recueillir l'identifiant.
