@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
+
+    #[ORM\ManyToMany(targetEntity: item::class)]
+    protected Item|null $item;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -1,7 +1,3 @@
-# relation ManytoMany Tag <=> Item
-
-créer un entité intermediaire, faire des relation OnetoMany et ManytoOne
-
 # formulaire de connexion
 
 # formulaire d'enregistrement
