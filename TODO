@@ -1,5 +1,9 @@
-# pagination
+# relation ManytoMany Tag <=> Item
 
-# logger
+créer un entité intermediaire, faire des relation OnetoMany et ManytoOne
 
-# mon premier formulaire
+# formulaire de connexion
+
+# formulaire d'enregistrement
+
+#
