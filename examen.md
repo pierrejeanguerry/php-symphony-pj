@@ -68,3 +68,52 @@ Améliorez ensuite une fois que tout fonctionne, votre application en gérant la
 Pour ce faire il vous faut créer un DTO (Data Transfer Object) qui contiendra les données nécessaires à la pagination, et qui sera passé en paramètre de votre contrôleur.
 
 Soyez attentif à la bonne gestion des erreurs, et au bon fonctionnement de votre première itération. Ajoutez également un logger, qui sort dans un fichier dans `/var/log`, et pensez à logger un maximum de choses en respectant [les niveaux d'erreurs](https://github.com/Seldaek/monolog/blob/main/doc/01-usage.md#log-levels).
+
+---
+
+## Deuxième Partie
+
+**Authentification et autorisation des utilisateurs, formulaires.**
+
+Vous devez maintenant rendre dynamique votre application web, en permettant aux utilisateurs de créer des contenus.
+Pour cela, vous devez sécuriser votre application web, et créer des formulaires.
+
+Avant toute chose, faites évoluer votre base de données. Vous avez maintenant besoin d'un utilisateur, et chaque contenu sera lié à un utilisateur.
+Cet utilisateur aura un pseudo et un mot de passe, ainsi qu'un rôle (rédacteur ou éditeur ou admin).
+Vous avez également besoin d'une table contenant des tags, qui seront liés à vos contenus.
+Et enfin, vous avez besoin d'une date de publication pour vos contenus (datetime).
+
+Ensuite faites évoluer votre header, afin d'ajouter un bouton de connexion et un bouton de déconnexion, en fonction de si l'utilisateur est connecté ou non.
+Quand l'utilisateur est connecté, et possède le droit de "rédacteur", il aura un bouton pour ajouter des contenus dans le header.
+
+Créez un formulaire et son contrôleur pour ajouter des contenus, qui doivent maintenant être lié à un rédacteur (utilisateur avec le droit rédacteur).
+Un contenu possède un contenu textuel d'au moins 20 caractères, une date de publication dans le futur, et au moins un tag.
+Vous devez vérifier ces pré-requis et afficher les erreurs correspondantes.
+
+Adaptez votre page principale, pour que seuls les contenus ayant une date de publication dans le passé soit affichés.
+Et modifiez vos fixtures, pour avoir quelques contenus avec une date de publication dans le futur.
+
+Enfin, vous protégerez cette page afin qu'elle soit uniquement accessible aux rédacteurs connectés, et vous ferez en sorte que les boutons dans le header, s'affichent ou non en fonction de si l'utilisateur est connecté ou non, en respectant les droits requis.
+
+---
+
+## Troisième Partie
+
+**Nouvelle fonctionnalité.**
+
+Les contenus doivent à présent être validés par un éditeur avant d'être publiés.
+
+Faites évoluer les fixtures, afin d'avoir un éditeur pour valider des contenus, et vos contenus pour en avoir des validés et des non validés. 
+Faites également évoluer votre base de données, pour ajouter un statut de publication à vos contenus, et une date de changement de statut.
+Seuls les contenus validés sont maintenant visible sur la page d'accueil.
+
+Ajoutez une nouvelle page dans votre application qui permettra aux éditeurs:
+  - de voir les contenus en attente de validation.
+  - de valider un contenu.
+  - d'archiver un contenu.
+  - de modifier un contenu.
+
+Lors de la modification d'un contenu par un éditeur, uniquement les tags et la date de publication sont modifiables.
+
+En bonus, vous pouvez utiliser le composant `symfony/workflow` pour gérer le cycle de vie des contenus.
+
