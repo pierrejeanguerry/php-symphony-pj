@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Item;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -31,6 +32,13 @@ class AppFixtures extends Fixture
         $item = new Item();
         $item->setName('ring');
         $manager->persist($item);
+        $user = new User();
+        $user->setUsername('piguerry');
+        $user->setPassword('piguerry');
+        $user->setrole('rédacteur');
+        $user->setRoles(["ROLE_USER"]);
+        $manager->persist($user);
+
 
         $manager->flush();
     }
