@@ -8,9 +8,12 @@
         {% endblock %}
     </head>
     <body>
+        {% block body %}
+            
         <navbar>
             {% block navbar %}
             {% if is_granted('IS_AUTHENTICATED') %}
+                {# {{ app.user.username }} #}
                 {{ include('header/connected.html.twig') }}
             {% else %}
                 {{ include('header/notConnected.html.twig') }}
@@ -34,5 +37,7 @@
                 {% endblock %}
             </div>
         </div>
+        {% endblock body %}
+
     </body>
 </html>
