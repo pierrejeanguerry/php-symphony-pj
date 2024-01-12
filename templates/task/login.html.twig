@@ -1,3 +1,7 @@
-{% if form is defined %}
-    {{ form(form) }}
-{% endif %}
+{% extends "base.html.twig" %}
+
+{# {% if form is defined %} #}
+{% block content %}
+    {{ form(form) }}    
+{% endblock content %}
+{# {% endif %} #}
