@@ -1,8 +1,5 @@
 # TODO
 
-## formulaire de connexion
+## Partie 2
 
-Rendre le formulaire fonctionnel.
-La variable form est undefined
-
-## formulaire d'enregistrement
+Quand l'utilisateur est connecté, et possède le droit de "rédacteur", il aura un bouton pour ajouter des contenus dans le header.
