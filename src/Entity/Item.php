@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\FuncCall;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
@@ -50,6 +51,17 @@ class Item
     {
         $this->publication_date = $publication_date;
 
+        return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
         return $this;
     }
 }

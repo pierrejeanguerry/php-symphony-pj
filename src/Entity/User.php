@@ -117,4 +117,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function setItems(Collection $list): static
+    {
+        $this->items = $list;
+        return $this;
+    }
 }
