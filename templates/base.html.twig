@@ -13,7 +13,7 @@
         <navbar>
             {% block navbar %}
             {% if is_granted('IS_AUTHENTICATED') %}
-                {# {{ app.user.username }} #}
+                {{ app.user.username }}
                 {{ include('header/connected.html.twig') }}
             {% else %}
                 {{ include('header/notConnected.html.twig') }}

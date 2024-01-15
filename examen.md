@@ -31,8 +31,6 @@ Le rendu de l'examen se fera via la plateforme GitHub. Il est recommandé de pou
 
 Dès que le dépôt est créé, merci de m'envoyer le lien sur le Discord.
 
-⚠ Il est impératif les 9/11/12 janvier de pousser votre code sur GitHub à la fin de chaque journée de cours.
-
 Le dépôt de code doit être accessible, et vous devez vous assurer en amont de la date du butoir, que votre code est présent, et que votre projet est fonctionnel.
 Il est impératif de respecter les consignes de rendu.
 
@@ -57,10 +55,10 @@ Le rendu de l'application n'est pas noté, mais elle doit être fonctionnelle et
 
 Les contenus sur la page d'accueil doivent être paginés, et il doit être possible d'utiliser la pagination.
 
-Enfin ajoutez une page dédiée, qui permet de consulter le contenu dans son intégralité.
+Enfin, ajoutez une page dédiée, qui permet de consulter le contenu dans son intégralité.
 
 Afin de vous aider à créer de nombreux contenus pour tester votre application, vous devez créer des fixtures à l'aide de [Doctrine Fixtures](https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html).
-Vous pouvez également vous aider de Alice et [Faker](https://github.com/FakerPHP/Faker), qui permettent de générer des données aléatoires, au lieu d'écrire des fixtures à la main.
+Vous pouvez également vous aider de [ZenstruckFoundryBundle](https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html), qui permet de générer des données aléatoires, au lieu d'écrire des fixtures à la main.
 
 Concentrez-vous sur la qualité de votre code, et sur le respect des bonnes pratiques. Cette première partie permet de mettre en place les bases de votre projet.
 
@@ -132,3 +130,74 @@ La seconde commande que vous allez créer de permettre d'archiver tous les conte
 
 La troisième doit permettre de valider un contenu, en fonction de son identifiant.
 Pour cela, vous devez soit fournir l'identifiant en tant que paramètre de votre commande, en dans le cas ou celui-ci ne serait pas fourni par l'utilisateur, une question interactive sera affichée pour recueillir l'identifiant.
+
+/!\ Ne mettez pas de logique applicative dans vos commandes. Utilisez les services et l'injection de dépendance.
+
+---
+
+## Cinquième Partie
+
+**API Platform.**
+
+Afin de créer un second backoffice (cette fois une SPA qui n'est pas sous votre responsabilité), vous devez créer une API avec API Platform.
+
+Le but de cette API est de pouvoir gérer les utilisateurs pour les administrateurs.
+
+Toutes les routes de votre api doivent être préfixées par `/api`.
+
+- Vous devez donc pouvoir ajouter de nouveaux utilisateurs
+- Modifier leurs roles
+- Supprimer des utilisateurs
+- Ainsi que fournir un endpoint paginé qui permet avec le format Hydra (JSON-LD) de lister les utilisateurs et de rechercher par nom et/ou prénom.
+- Il doit être également possible de consulter un utilisateur
+
+Nous allons donc enrichir nos utilisateurs, ils ont maintenant en plus des propriétés existantes, un nom et prénom, ainsi qu'un [country code](https://fakerphp.github.io/formatters/miscellaneous/#countrycode)
+
+La particularité est que la liste d'utilisateur ne doit afficher que l'identifiant, nom, prénom. La ou l'endpoint des informations utilisateurs doit lui afficher toutes les informations (roles compris).
+
+Assurez-vous que la documentation API disponible sur la route `/docs` soit complête et fonctionnelle.
+Par exemple, nommez vos propriétés et resources de manière explicite, et rajoutez des informations supplémentaires si vous le jugez nécessaire.
+
+Votre API est sécurisée, uniquement les utilisateurs avec le rôle `ROLE_ADMIN` peuvent y avoir accès.
+Étant donné la sensibilité de votre API, assurez-vous de logguer chaque accès à celle-ci, dans les logs ou en BDD (date, route, méthode, utilisateur authentifié).
+
+Vous utiliserez le standard `JWT` pour l'authentification, donc vos requêtes seront `stateless` et devront contenir le jeton obtenu via la route `/api/login`.
+
+---
+
+## Sixième Partie
+
+**Tests.**
+
+En reprenant les cours de tests avec PHP et Symfony. Proposez un maximum de tests pertinents et non redondants.
+
+Le but n'est pas de tout tester à 100%, mais a minima le chemin critique de vos applications (Frontoffice, Backoffice, API).
+Et de montrer que vous savez utiliser les classes `KernelTestCase`, `WebTestCase` et `ApiTestCase` pour tester vos applications.
+
+Par exemple tester la bonne connexion via formulaire, et API. Que la pagination fonctionne, ainsi que les enpoints de votre API. Que vos formulaires sont fonctionnels, ainsi que votre pagination.
+
+---
+
+## Septième Partie
+
+**Présentation du projet et de votre code au tech lead avant la livraison au client.**
+
+Vous devez individuellement présenter votre projet à l'oral, le vendredi 19 janvier 2024.
+
+L'échange durera une vingtaine de minutes, afin que vous puissiez présenter votre projet à l'oral.
+
+En expliquant les choix techniques, les difficultés rencontrées, les points d'améliorations, votre plan pour terminer ce qu'il reste, etc.
+
+/!\ Seules les absences justifiées auprès de l'école seront acceptées.
+
+---
+
+## Ressources
+
+- [Symfony](https://symfony.com/)
+- [Twig](https://twig.symfony.com/)
+- [Doctrine](https://www.doctrine-project.org/)
+- [API Platform](https://api-platform.com/)
+- [Symfony Console](https://symfony.com/doc/current/components/console.html)
+- [Workflow](https://symfony.com/doc/current/components/workflow.html)
+- [PHPUnit](https://phpunit.de/)
