@@ -18,6 +18,7 @@ class ItemType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('publication_date', DateType::class)
+            ->add('description', TextType::class)
             ->add('new_item', SubmitType::class)
             
         ;
