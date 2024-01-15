@@ -9,6 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
 {
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy:"items")]
+    
+    private User $user;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -11,6 +11,20 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        $user = new User();
+        $user->setUsername('piguerry');
+        $user->setPassword('piguerry');
+        $user->setrole('rédacteur');
+        $user->setRoles(["ROLE_USER"]);
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setUsername('admin');
+        $user->setPassword('admin');
+        $user->setrole('éditeur');
+        $user->setRoles(["ADMIN_USER"]);
+        $manager->persist($user);
+
         $item = new Item();
         $item->setName('boots');
         $manager->persist($item);
@@ -32,12 +46,7 @@ class AppFixtures extends Fixture
         $item = new Item();
         $item->setName('ring');
         $manager->persist($item);
-        $user = new User();
-        $user->setUsername('piguerry');
-        $user->setPassword('piguerry');
-        $user->setrole('rédacteur');
-        $user->setRoles(["ROLE_USER"]);
-        $manager->persist($user);
+
 
 
         $manager->flush();
