@@ -3,7 +3,6 @@ security:
     App\Entity\User:
             algorithm: plaintext # disable hashing (only do this in tests!)
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "bcrypt"
-    
   providers:
     app_user_provider:
       entity:
@@ -27,7 +26,7 @@ security:
                 target: home_page
 
   access_control:
-    # - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/items, roles: ROLE_USER }
     # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

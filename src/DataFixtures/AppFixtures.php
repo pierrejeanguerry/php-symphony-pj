@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
         $user->setUsername('admin');
         $user->setPassword('admin');
         $user->setrole('éditeur');
-        $user->setRoles(["ADMIN_USER"]);
+        $user->setRoles(["ROLE_ADMIN"]);
         $manager->persist($user);
 
         $user = new User();
