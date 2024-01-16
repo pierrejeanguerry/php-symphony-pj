@@ -73,7 +73,6 @@ class ItemController extends AbstractController
                 return new Response((string) $errors, 400);
             }
             $item = $form->getData();
-            // print_r($item);
             $manager->persist($item);
             $manager->flush();
             return $this->redirectToRoute('home_page');
