@@ -13,7 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Item
 {
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy:"items")]
-    private User $user;
+    #[Assert\NotNull]
+    private User $creator;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy:"items")]
+    private User $validator;
 
     #[ORM\ManyToMany(targetEntity: Tag::class)]
     protected Collection $tags;
@@ -24,16 +28,22 @@ class Item
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Assert\GreaterThan(value: 'now', message:"Publication date must be greater than the current date.")]
-
     private ?\DateTimeInterface $publication_date = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(min: 20)]
     private ?string $description = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $validation_date = null;
+
+    #[ORM\Column]
+    private ?bool $isValidated = false;
 
     public function getId(): ?int
     {
@@ -64,14 +74,25 @@ class Item
         return $this;
     }
 
-    public function getUser()
+    public function getCreator(): User
     {
-        return $this->user;
+        return $this->creator;
     }
 
-    public function setUser(User $user): static
+    public function setCreator(User $user): static
     {
-        $this->user = $user;
+        $this->creator = $user;
+        return $this;
+    }
+
+    public function getValidator(): User
+    {
+        return $this->validator;
+    }
+
+    public function setValidator(User $user): static
+    {
+        $this->validator = $user;
         return $this;
     }
 
@@ -83,6 +104,41 @@ class Item
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function setTags(Collection $tags): static
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+
+    public function getValidationDate(): ?\DateTimeInterface
+    {
+        return $this->validation_date;
+    }
+
+    public function setValidationDate(?\DateTimeInterface $validation_date): static
+    {
+        $this->validation_date = $validation_date;
+
+        return $this;
+    }
+
+    public function getIsValidated(): ?bool
+    {
+        return $this->isValidated;
+    }
+
+    public function setIsValidated(bool $isValidated): static
+    {
+        $this->isValidated = $isValidated;
 
         return $this;
     }

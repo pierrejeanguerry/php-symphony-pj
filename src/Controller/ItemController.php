@@ -25,7 +25,7 @@ class ItemController extends AbstractController
                             Request $request): Response
     {
         $itemByPages = 10;
-        $query = $entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.publication_date < CURRENT_DATE()');
+        $query = $entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.publication_date < CURRENT_DATE() AND i.validator IS NOT NULL');
         $logger->info('Show route /items');
 
         $pagination = $paginator->paginate(
@@ -44,7 +44,7 @@ class ItemController extends AbstractController
         $item = new Item();
         $item->setName("");
         $item->setPublicationDate(new DateTime());
-        $item->setUser($user);
+        $item->setCreator($user);
         
         $form = $this->createForm(ItemType::class, $item);
 
