@@ -18,33 +18,21 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class ItemController extends AbstractController
 {
-    #[Route('/items/show/{pageNumber}', name:'item-view')]
-    public function show(EntityManagerInterface $entityManager, array $_route_params, LoggerInterface $logger, PaginatorInterface $paginator, Request $request): Response
+    #[Route('/items', name:'item-view')]
+    public function show(EntityManagerInterface $entityManager,
+                            LoggerInterface $logger,
+                            PaginatorInterface $paginator,
+                            Request $request): Response
     {
         $itemByPages = 10;
         $query = $entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.publication_date < CURRENT_DATE()');
-        $logger->info('Show route /items/{pageNumber}', 
-            ['pageNumber' => $_route_params['pageNumber']]);
-
-        // $items = $entityManager->getRepository(Item::class)->findAll();
-        // $items = $entityManager->getRepository(Item::class)->findBy([], 
-        //                                             null, 
-        //                                             $itemByPages, 
-        //                                             $_route_params['pageNumber'] * $itemByPages);
-        // $items = $entityManager->createQuery($query)->getResult();
+        $logger->info('Show route /items');
 
         $pagination = $paginator->paginate(
-            $query, // Requête Doctrine
-            $request->query->getInt('page', 1), // Numéro de la page
-            $itemByPages // Nombre d'éléments par page
+            $query,
+            $request->query->getInt('page', 1),
+            $itemByPages
         );
-
-        // if (!$items) {
-        //     $logger->error('No Items Found');
-        //     throw $this->createNotFoundException(
-        //         'No Items found '
-        //     );
-        // }
 
         return $this->render('layout.html.twig', [
             'pagination' => $pagination]);

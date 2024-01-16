@@ -28,8 +28,6 @@ class LoginController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             $user = $form->getData();
-            print_r($user);
-            // return $this->redirectToRoute('home_page');
         }
 
         return $this->render('login/index.html.twig', [

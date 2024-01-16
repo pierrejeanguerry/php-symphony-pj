@@ -17,6 +17,7 @@ security:
       lazy: true
       provider: app_user_provider
       form_login:
+                default_target_path: item-view
                 username_parameter: user[username]
                 password_parameter: user[password]
                 login_path: login_page
