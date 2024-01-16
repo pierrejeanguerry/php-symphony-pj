@@ -3,4 +3,8 @@
     {% if app.user.role == "rédacteur" %}
         <a href="{{path('add_item')}}" class="inline-block border border-green-500 rounded py-1 px-3 bg-green-500 text-white">Add item</a>
     {% endif %}
+    {% if app.user.role == "éditeur" %}
+        <a href="{{path('view_item')}}" class="inline-block border border-gray-500 rounded py-1 px-3 bg-gray-800 text-white">Home</a>
+        <a href="{{path('manage_item')}}" class="inline-block border border-gray-500 rounded py-1 px-3 bg-purple-500 text-white">Manage</a>
+    {% endif %}
 </navbar>

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    
+    {% for item in pagination %}
+        <div class="h-[9%]">
+            {{ item.id }}
+            {{ item.name }}
+            {{ item.description }}
+            {{ item.publicationDate|date("m/d/Y") }}
+            {% if app.user.role == "éditeur" %}
+            <form action="{{ path('validate_item',{'id': item.id} )}}" method="post">
+                <button type="submit" class="inline-block border border-green-500 rounded py-1 px-3 bg-green-500 text-white">Validate</button>
+            </form>
+                <a href="{{path('modify_item')}}" class="inline-block border border-yellow-500 rounded py-1 px-3 bg-yellow-500 text-white">Modify</a>
+                <a href="{{path('archived_item')}}" class="inline-block border border-red-500 rounded py-1 px-3 bg-red-500 text-white">Archived</a>
+                
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div class="pagination" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    {{ knp_pagination_render(pagination) }}
+</div>
+{% endblock %}

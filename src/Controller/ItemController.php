@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class ItemController extends AbstractController
 {
-    #[Route('/items', name:'item-view')]
+    #[Route('/items', name:'view_item')]
     public function show(EntityManagerInterface $entityManager,
                             LoggerInterface $logger,
                             PaginatorInterface $paginator,
@@ -35,6 +35,24 @@ class ItemController extends AbstractController
         );
 
         return $this->render('layout.html.twig', [
+            'pagination' => $pagination]);
+    }
+
+    #[Route('items/manage', name: 'manage_item')]
+    public function manageItem(EntityManagerInterface $entityManager,
+                            PaginatorInterface $paginator,
+                            Request $request): Response
+    {
+        $itemByPages = 10;
+        $query = $entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.isValidated = false');
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            $itemByPages
+        );
+
+        return $this->render('manage.html.twig', [
             'pagination' => $pagination]);
     }
 
@@ -64,5 +82,33 @@ class ItemController extends AbstractController
         return $this->render('login/index.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('items/validate?{id}', name: 'validate_item')]
+    public function validateItem(Request $request, EntityManagerInterface $manager, #[CurrentUser] User $user, int $id)
+    {
+        $item = $manager->getRepository(Item::class)->find($id);
+        if (!$item) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+
+        $item->setIsValidated(true)
+        ->setValidator($user)
+        ->setValidationDate(new DateTime());
+        $manager->flush();
+
+        return $this->redirectToRoute('view_item');
+    }
+
+    #[Route('items/archived', name: 'archived_item')]
+    public function archivedItem(Request $request, ValidatorInterface $validator, EntityManagerInterface $manager, #[CurrentUser] User $user)
+    {
+    }
+
+    #[Route('items/modify', name: 'modify_item')]
+    public function modifyItem(Request $request, ValidatorInterface $validator, EntityManagerInterface $manager, #[CurrentUser] User $user)
+    {
     }
 }

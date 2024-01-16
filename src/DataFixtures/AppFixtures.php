@@ -149,8 +149,6 @@ class AppFixtures extends Fixture
         $item->setIsValidated(true);
         $manager->persist($item);
 
-
-
         $manager->flush();
     }
 }
