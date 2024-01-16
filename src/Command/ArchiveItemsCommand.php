@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Controller\ItemController;
+use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -14,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class ArchiveItemsCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private ItemRepository $repository)
     {
         parent::__construct();
     }
@@ -29,7 +31,7 @@ class ArchiveItemsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $toArchive = $this->entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.isArchived = false AND i.isValidated = false')->getResult();
+        $toArchive = $this->repository->getNonValidatedItems($this->entityManager);
         $nbToArchive = count($toArchive);
         $progressBar = new ProgressBar($output, $nbToArchive);
         foreach($toArchive as $item)

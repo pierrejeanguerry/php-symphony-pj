@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Item;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,6 +22,30 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
+     /**
+    * @return Item[]
+    */
+    public function getArchivedItems(EntityManagerInterface $entityManager): array
+    {
+        return $entityManager->createQuery(
+            'SELECT i 
+            FROM App\Entity\Item i 
+            WHERE i.isArchived = true')->getResult();
+
+    }
+
+    /**
+    * @return Item[]
+    */
+    public function getNonValidatedItems(EntityManagerInterface $entityManager): array
+    {
+        return $entityManager->createQuery(
+            'SELECT i 
+            FROM App\Entity\Item i 
+            WHERE i.isArchived = false 
+            AND i.isValidated = false')->getResult();
+
+    }
 
 //    /**
 //     * @return Item[] Returns an array of Item objects

@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Controller\ItemController;
+use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -14,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ListArchiveCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private ItemRepository $repository)
     {
         parent::__construct();
     }
@@ -29,7 +31,7 @@ class ListArchiveCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $result = $this->entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.isArchived = true')->getResult();
+        $result = $this->repository->getArchivedItems($this->entityManager);
         $io = new SymfonyStyle($input, $output);
         $io->title('List of archives items');
         $tableHeaders = ['id','name','publication_date','creator_id','description'];
