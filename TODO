@@ -2,4 +2,9 @@
 
 ## Partie 2
 
-Quand l'utilisateur est connecté, et possède le droit de "rédacteur", il aura un bouton pour ajouter des contenus dans le header.
+Faire la jointure ManyToMany entre item et tag.
+Comment entrer les differents tags dans un formulaire ?
+
+## Partie 3
+
+Faire la gestion des modifications des objets sur l'admin pannel
