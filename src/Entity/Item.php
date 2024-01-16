@@ -43,7 +43,12 @@ class Item
     private ?\DateTimeInterface $validation_date = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?bool $isValidated = false;
+
+    #[ORM\Column]
+    #[Assert\NotNull]
+    private ?bool $isArchived = false;
 
     public function getId(): ?int
     {
@@ -139,6 +144,18 @@ class Item
     public function setIsValidated(bool $isValidated): static
     {
         $this->isValidated = $isValidated;
+
+        return $this;
+    }
+
+    public function getIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

@@ -25,7 +25,7 @@ class ItemController extends AbstractController
                             Request $request): Response
     {
         $itemByPages = 10;
-        $query = $entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.publication_date < CURRENT_DATE() AND i.isValidated = true');
+        $query = $entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.publication_date < CURRENT_DATE() AND i.isValidated = true AND i.isArchived = false');
         $logger->info('Show route /items');
 
         $pagination = $paginator->paginate(
@@ -44,7 +44,7 @@ class ItemController extends AbstractController
                             Request $request): Response
     {
         $itemByPages = 10;
-        $query = $entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.isValidated = false');
+        $query = $entityManager->createQuery('SELECT i FROM App\Entity\Item i WHERE i.isValidated = false AND i.isArchived = false');
 
         $pagination = $paginator->paginate(
             $query,
@@ -85,7 +85,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('items/validate?{id}', name: 'validate_item')]
-    public function validateItem(Request $request, EntityManagerInterface $manager, #[CurrentUser] User $user, int $id)
+    public function validateItem(EntityManagerInterface $manager, #[CurrentUser] User $user, int $id)
     {
         $item = $manager->getRepository(Item::class)->find($id);
         if (!$item) {
@@ -93,22 +93,31 @@ class ItemController extends AbstractController
                 'No product found for id '.$id
             );
         }
-
         $item->setIsValidated(true)
         ->setValidator($user)
         ->setValidationDate(new DateTime());
         $manager->flush();
 
-        return $this->redirectToRoute('view_item');
+        return $this->redirectToRoute('manage_item');
     }
 
-    #[Route('items/archived', name: 'archived_item')]
-    public function archivedItem(Request $request, ValidatorInterface $validator, EntityManagerInterface $manager, #[CurrentUser] User $user)
+    #[Route('items/archived?{id}', name: 'archive_item')]
+    public function archiveItem(EntityManagerInterface $manager, int $id)
     {
+        $item = $manager->getRepository(Item::class)->find($id);
+        if (!$item) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+        $item->setIsArchived(true);
+        $manager->flush();
+
+        return $this->redirectToRoute('manage_item');
     }
 
-    #[Route('items/modify', name: 'modify_item')]
-    public function modifyItem(Request $request, ValidatorInterface $validator, EntityManagerInterface $manager, #[CurrentUser] User $user)
+    #[Route('items/modify?{id}', name: 'modify_item')]
+    public function modifyItem(ValidatorInterface $validator, EntityManagerInterface $manager, #[CurrentUser] User $user)
     {
     }
 }
