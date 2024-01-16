@@ -6,6 +6,7 @@ use App\Entity\Item;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Null_;
 
 /**
  * @extends ServiceEntityRepository<Item>
@@ -45,6 +46,20 @@ class ItemRepository extends ServiceEntityRepository
             WHERE i.isArchived = false 
             AND i.isValidated = false')->getResult();
 
+    }
+    
+    /**
+    * @return Item[]
+    */
+    public function findValidableItem(int $id): array
+    {
+        return $this->createQueryBuilder('i')
+                   ->andWhere('i.id = :id')
+                   ->setParameter('id', $id)
+                   ->andWhere('i.isValidated = false')
+                   ->andWhere('i.isArchived = false')
+                   ->getQuery()
+                   ->getResult();
     }
 
 //    /**
