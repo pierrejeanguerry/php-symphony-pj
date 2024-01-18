@@ -17,17 +17,24 @@ class ItemType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
-            ->add('name', TextType::class)
+            ->add('name', TextType::class, [
+                'disabled' => $options['isDisabled']
+            ])
             ->add('publication_date', DateType::class)
-            ->add('description', TextType::class)
+            ->add('description', TextType::class, [
+                'disabled' => $options['isDisabled']
+            ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->add('new_item', SubmitType::class)
+            ->add('new_item', SubmitType::class, [
+                'label' => $options['buttonName']
+            ])
         ;
     }
 
@@ -35,6 +42,8 @@ class ItemType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Item::class,
+            'isDisabled' => false,
+            'buttonName' => 'Add item'
         ]);
     }
 }

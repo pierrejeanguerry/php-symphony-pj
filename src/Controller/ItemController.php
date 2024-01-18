@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -116,7 +117,24 @@ class ItemController extends AbstractController
     }
 
     #[Route('items/modify?{id}', name: 'modify_item')]
-    public function modifyItem(ValidatorInterface $validator, EntityManagerInterface $manager, #[CurrentUser] User $user)
+    public function modifyItem(ValidatorInterface $validator, EntityManagerInterface $manager, Request $request, Item $item, #[CurrentUser] User $user)
     {
+        $form = $this->createForm(ItemType::class, $item, ['isDisabled' => true, 'buttonName' => 'Modify item']);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $errors = $validator->validate($item);
+            if (count($errors) > 0) {
+                return new Response((string) $errors, 400);
+            }
+            $item = $form->getData();
+            $manager->persist($item);
+            $manager->flush();
+            return $this->redirectToRoute('home_page');
+        }
+
+        return $this->render('login/index.html.twig', [
+            'form' => $form,
+        ]);
     }
 }
