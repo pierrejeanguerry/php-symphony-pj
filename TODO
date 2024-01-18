@@ -1,10 +1,13 @@
 # TODO
 
-## Partie 2
+## Cinquième Partie
 
-Faire la jointure ManyToMany entre item et tag.
-Comment entrer les differents tags dans un formulaire ?
+faire la page /docs
+Votre API est sécurisée, uniquement les utilisateurs avec le rôle `ROLE_ADMIN` peuvent y avoir accès.
+Étant donné la sensibilité de votre API, assurez-vous de logguer chaque accès à celle-ci, dans les logs ou en BDD (date, route, méthode, utilisateur authentifié).
 
-## Partie 3
+Vous utiliserez le standard `JWT` pour l'authentification, donc vos requêtes seront `stateless` et devront contenir le jeton obtenu via la route `/api/login`.
 
-Faire la gestion des modifications des objets sur l'admin pannel
+## Sixieme Partie
+
+TOUT
