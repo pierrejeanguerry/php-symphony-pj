@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\TagRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
+#[ApiResource()]
 class Tag
 {
-
-    #[ORM\ManyToMany(targetEntity: item::class)]
-    protected Item|null $item;
+    /**
+     * @var Collection|Item[]
+     */
+    #[ORM\ManyToMany(targetEntity: Item::class)]
+    private $items;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,6 +39,17 @@ class Tag
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function setCreatedItems(Collection $list): static
+    {
+        $this->items = $list;
         return $this;
     }
 }

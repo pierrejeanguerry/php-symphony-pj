@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Item;
+use App\Entity\Tag;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -14,13 +15,19 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $creator = new User();
-        $creator->setUsername('piguerry');
+        $creator->setFirstname("creator");
+        $creator->setSurname("creator");
+        $creator->setCountryCode("FR");
+        $creator->setUsername('creator');
         $creator->setPassword('piguerry');
         $creator->setrole('rédacteur');
         $creator->setRoles(["ROLE_USER"]);
         $manager->persist($creator);
 
         $validator = new User();
+        $validator->setFirstname("admin");
+        $validator->setSurname("admin");
+        $validator->setCountryCode("FR");
         $validator->setUsername('admin');
         $validator->setPassword('admin');
         $validator->setrole('éditeur');
@@ -28,11 +35,26 @@ class AppFixtures extends Fixture
         $manager->persist($validator);
 
         $user = new User();
-        $user->setUsername('creator');
+        $user->setFirstname("pierre-jean");
+        $user->setSurname("guerry");
+        $user->setCountryCode("FR");
+        $user->setUsername('piguerry');
         $user->setPassword('piguerry');
         $user->setrole('rédacteur');
         $user->setRoles(["ROLE_USER"]);
         $manager->persist($user);
+
+        $tag = new Tag();
+        $tag->setName("weapon");
+        $manager->persist($tag);
+
+        $tag = new Tag();
+        $tag->setName("tableware");
+        $manager->persist($tag);
+
+        $tag = new Tag();
+        $tag->setName("armor");
+        $manager->persist($tag);
 
         $item = new Item();
         $item->setPublicationDate(new DateTime("2020-01-01"));
