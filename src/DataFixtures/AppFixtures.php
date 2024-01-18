@@ -7,7 +7,6 @@ use App\Entity\Tag;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\ORM\Mapping\Id;
 use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
@@ -44,23 +43,24 @@ class AppFixtures extends Fixture
         $user->setRoles(["ROLE_USER"]);
         $manager->persist($user);
 
-        $tag = new Tag();
-        $tag->setName("weapon");
-        $manager->persist($tag);
+        $weapon = new Tag();
+        $weapon->setName("weapon");
+        $manager->persist($weapon);
 
-        $tag = new Tag();
-        $tag->setName("tableware");
-        $manager->persist($tag);
+        $tableware = new Tag();
+        $tableware->setName("tableware");
+        $manager->persist($tableware);
 
-        $tag = new Tag();
-        $tag->setName("armor");
-        $manager->persist($tag);
+        $armor = new Tag();
+        $armor->setName("armor");
+        $manager->persist($armor);
 
         $item = new Item();
         $item->setPublicationDate(new DateTime("2020-01-01"));
         $item->setValidationDate(new DateTime("2020-01-01"));
         $item->setDescription("Ceci est un objet très stylé");
         $item->setName('boots');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $item->setValidator($validator);
         $item->setIsValidated(true);
@@ -69,6 +69,7 @@ class AppFixtures extends Fixture
         $item->setPublicationDate(new DateTime("2020-01-01"));
         $item->setDescription("Ceci est un objet très stylé");
         $item->setName('boots');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();
@@ -76,6 +77,7 @@ class AppFixtures extends Fixture
         $item->setValidationDate(new DateTime("2020-01-01"));
         $item->setDescription("Ceci est un objet très stylé");
         $item->setName('boots');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $item->setValidator($validator);
         $item->setIsValidated(true);
@@ -84,24 +86,28 @@ class AppFixtures extends Fixture
         $item->setPublicationDate(new DateTime("2020-01-01"));
         $item->setDescription("Ceci est un objet très stylé");
         $item->setName('boots');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();
         $item->setPublicationDate(new DateTime("2020-01-01"));
         $item->setDescription("Ceci est un objet très stylé");
         $item->setName('boots');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();
         $item->setPublicationDate(new DateTime("2021-01-01"));
         $item->setDescription("Ceci est un objet très stylé");
         $item->setName('helmet');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();
         $item->setDescription("Ceci est un objet très stylé");
         $item->setPublicationDate(new DateTime("2022-01-01"));
         $item->setName('body armor');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();
@@ -109,6 +115,7 @@ class AppFixtures extends Fixture
         $item->setPublicationDate(new DateTime("2023-01-01"));
         $item->setValidationDate(new DateTime("2023-01-01"));
         $item->setName('gloves');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $item->setValidator($validator);
         $item->setIsValidated(true);
@@ -117,6 +124,7 @@ class AppFixtures extends Fixture
         $item->setDescription("Ceci est un objet très stylé");
         $item->setPublicationDate(new DateTime("2023-01-01"));
         $item->setName('gloves');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();
@@ -124,6 +132,7 @@ class AppFixtures extends Fixture
         $item->setPublicationDate(new DateTime("2023-01-01"));
         $item->setValidationDate(new DateTime("2023-01-01"));
         $item->setName('gloves');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $item->setValidator($validator);
         $item->setIsValidated(true);
@@ -132,12 +141,14 @@ class AppFixtures extends Fixture
         $item->setDescription("Ceci est un objet très stylé");
         $item->setPublicationDate(new DateTime("2023-01-01"));
         $item->setName('gloves');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();
         $item->setDescription("Ceci est un objet très stylé");
         $item->setPublicationDate(new DateTime("2023-01-01"));
         $item->setName('gloves');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();
@@ -145,6 +156,7 @@ class AppFixtures extends Fixture
         $item->setPublicationDate(new DateTime("2023-01-01"));
         $item->setValidationDate(new DateTime("2023-01-01"));
         $item->setName('gloves');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $item->setValidator($validator);
         $item->setIsValidated(true);
@@ -159,6 +171,7 @@ class AppFixtures extends Fixture
         $item->setDescription("Ceci est un objet très stylé");
         $item->setPublicationDate(new DateTime("2025-01-01"));
         $item->setName('shield');
+        $item->addTag($armor);
         $item->setCreator($creator);
         $manager->persist($item);
         $item = new Item();

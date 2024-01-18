@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\TagRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,7 +15,7 @@ class Tag
     /**
      * @var Collection|Item[]
      */
-    #[ORM\ManyToMany(targetEntity: Item::class)]
+    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: "tags")]
     private $items;
 
     #[ORM\Id]
@@ -24,6 +25,12 @@ class Tag
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -42,14 +49,23 @@ class Tag
         return $this;
     }
 
-    public function getItems(): Collection
+    public function getItems()
     {
         return $this->items;
     }
 
-    public function setCreatedItems(Collection $list): static
+    public function addItem(Item $item)
     {
-        $this->items = $list;
-        return $this;
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->addTag($this);
+        }
+    }
+
+    public function removeItem(Item $item)
+    {
+        if ($this->items->removeElement($item)) {
+            $item->removeTag($this);
+        }
     }
 }

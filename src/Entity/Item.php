@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,8 +21,12 @@ class Item
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy:"items")]
     private User $validator;
 
-    #[ORM\ManyToMany(targetEntity: Tag::class)]
-    protected Collection $tags;
+    /**
+     * @var Collection|Tag[]
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: "items")]
+    #[ORM\JoinTable(name:"items_tags")]
+    private $tags;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -50,6 +55,11 @@ class Item
     #[ORM\Column]
     #[Assert\NotNull]
     private ?bool $isArchived = false;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -114,16 +124,27 @@ class Item
         return $this;
     }
 
-    public function getTags(): Collection
+    public function getTags()
     {
         return $this->tags;
     }
 
-    public function setTags(Collection $tags): static
+    public function addTag(Tag $tag)
     {
-        $this->tags = $tags;
-        return $this;
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addItem($this);
+        }
     }
+
+    public function removeTag(Tag $tag)
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeItem($this);
+        }
+    }
+
+
 
     public function getValidationDate(): ?\DateTimeInterface
     {

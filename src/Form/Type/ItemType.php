@@ -3,6 +3,8 @@
 namespace App\Form\Type;
 
 use App\Entity\Item;
+use App\Entity\Tag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\Form\AbstractType;
@@ -19,8 +21,13 @@ class ItemType extends AbstractType
             ->add('name', TextType::class)
             ->add('publication_date', DateType::class)
             ->add('description', TextType::class)
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+            ])
             ->add('new_item', SubmitType::class)
-            
         ;
     }
 
