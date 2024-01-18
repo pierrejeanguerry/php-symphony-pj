@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,12 +10,20 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ApiResource()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /**
+     * @var Collection|Item[]
+     */
+    #[ORM\OneToMany(targetEntity: Item::class, mappedBy:"creator")]
+    private $createdItems;
 
-    #[ORM\OneToMany(targetEntity: Item::class, mappedBy:"items")]
-    
-    private Collection $items;
+    /**
+     * @var Collection|Item[]
+     */
+    #[ORM\OneToMany(targetEntity: Item::class, mappedBy:"validator")]
+    private $validatedItems;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -35,6 +44,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $role = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $surname = null;
+
+    #[ORM\Column(length: 2)]
+    private ?string $countryCode = null;
 
     public function getId(): ?int
     {
@@ -118,14 +136,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getItems(): Collection
+    public function getCreatedItems(): Collection
     {
-        return $this->items;
+        return $this->createdItems;
     }
 
-    public function setItems(Collection $list): static
+    public function setCreatedItems(Collection $list): static
     {
-        $this->items = $list;
+        $this->createdItems = $list;
+        return $this;
+    }
+    public function getValidatedItems(): Collection
+    {
+        return $this->validatedItems;
+    }
+
+    public function setValidatedItems(Collection $list): static
+    {
+        $this->validatedItems = $list;
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): static
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): static
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    public function getCountryCode(): ?string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode): static
+    {
+        $this->countryCode = $countryCode;
+
         return $this;
     }
 }
