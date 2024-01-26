@@ -1,0 +1,933 @@
+openapi: 3.1.0
+info:
+  title: 'Hello API Platform'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: /
+    description: ''
+paths:
+  /api/items:
+    get:
+      operationId: api_items_get_collection
+      tags:
+        - Item
+      responses:
+        200:
+          description: 'Item collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Item.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of Item resources.'
+      description: 'Retrieves the collection of Item resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    post:
+      operationId: api_items_post
+      tags:
+        - Item
+      responses:
+        201:
+          description: 'Item resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Item.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a Item resource.'
+      description: 'Creates a Item resource.'
+      parameters: []
+      requestBody:
+        description: 'The new Item resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Item.jsonld'
+        required: true
+      deprecated: false
+    parameters: []
+  '/api/items/{id}':
+    get:
+      operationId: api_items_id_get
+      tags:
+        - Item
+      responses:
+        200:
+          description: 'Item resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Item.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a Item resource.'
+      description: 'Retrieves a Item resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Item identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    put:
+      operationId: api_items_id_put
+      tags:
+        - Item
+      responses:
+        200:
+          description: 'Item resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Item.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Replaces the Item resource.'
+      description: 'Replaces the Item resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Item identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated Item resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Item.jsonld'
+        required: true
+      deprecated: false
+    delete:
+      operationId: api_items_id_delete
+      tags:
+        - Item
+      responses:
+        204:
+          description: 'Item resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the Item resource.'
+      description: 'Removes the Item resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Item identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    patch:
+      operationId: api_items_id_patch
+      tags:
+        - Item
+      responses:
+        200:
+          description: 'Item resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Item.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Updates the Item resource.'
+      description: 'Updates the Item resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Item identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated Item resource'
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      deprecated: false
+    parameters: []
+  /api/tags:
+    get:
+      operationId: api_tags_get_collection
+      tags:
+        - Tag
+      responses:
+        200:
+          description: 'Tag collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Tag.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of Tag resources.'
+      description: 'Retrieves the collection of Tag resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    post:
+      operationId: api_tags_post
+      tags:
+        - Tag
+      responses:
+        201:
+          description: 'Tag resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tag.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a Tag resource.'
+      description: 'Creates a Tag resource.'
+      parameters: []
+      requestBody:
+        description: 'The new Tag resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Tag.jsonld'
+        required: true
+      deprecated: false
+    parameters: []
+  '/api/tags/{id}':
+    get:
+      operationId: api_tags_id_get
+      tags:
+        - Tag
+      responses:
+        200:
+          description: 'Tag resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tag.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a Tag resource.'
+      description: 'Retrieves a Tag resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Tag identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    put:
+      operationId: api_tags_id_put
+      tags:
+        - Tag
+      responses:
+        200:
+          description: 'Tag resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tag.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Replaces the Tag resource.'
+      description: 'Replaces the Tag resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Tag identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated Tag resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Tag.jsonld'
+        required: true
+      deprecated: false
+    delete:
+      operationId: api_tags_id_delete
+      tags:
+        - Tag
+      responses:
+        204:
+          description: 'Tag resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the Tag resource.'
+      description: 'Removes the Tag resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Tag identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    patch:
+      operationId: api_tags_id_patch
+      tags:
+        - Tag
+      responses:
+        200:
+          description: 'Tag resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tag.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Updates the Tag resource.'
+      description: 'Updates the Tag resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Tag identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated Tag resource'
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+        required: true
+      deprecated: false
+    parameters: []
+  /api/users:
+    get:
+      operationId: api_users_get_collection
+      tags:
+        - User
+      responses:
+        200:
+          description: 'User collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/User.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of User resources.'
+      description: 'Retrieves the collection of User resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    post:
+      operationId: api_users_post
+      tags:
+        - User
+      responses:
+        201:
+          description: 'User resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a User resource.'
+      description: 'Creates a User resource.'
+      parameters: []
+      requestBody:
+        description: 'The new User resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/User.jsonld'
+        required: true
+      deprecated: false
+    parameters: []
+  '/api/users/{id}':
+    get:
+      operationId: api_users_id_get
+      tags:
+        - User
+      responses:
+        200:
+          description: 'User resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a User resource.'
+      description: 'Retrieves a User resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'User identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    put:
+      operationId: api_users_id_put
+      tags:
+        - User
+      responses:
+        200:
+          description: 'User resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Replaces the User resource.'
+      description: 'Replaces the User resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'User identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated User resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/User.jsonld'
+        required: true
+      deprecated: false
+    delete:
+      operationId: api_users_id_delete
+      tags:
+        - User
+      responses:
+        204:
+          description: 'User resource deleted'
+        404:
+          description: 'Resource not found'
+      summary: 'Removes the User resource.'
+      description: 'Removes the User resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'User identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    patch:
+      operationId: api_users_id_patch
+      tags:
+        - User
+      responses:
+        200:
+          description: 'User resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+        404:
+          description: 'Resource not found'
+      summary: 'Updates the User resource.'
+      description: 'Updates the User resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'User identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      requestBody:
+        description: 'The updated User resource'
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      deprecated: false
+    parameters: []
+components:
+  schemas:
+    Item:
+      type: object
+      description: ''
+      deprecated: false
+      required:
+        - creator
+        - name
+        - isValidated
+        - isArchived
+      properties:
+        creator:
+          'owl:maxCardinality': 1
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+        validator:
+          'owl:maxCardinality': 1
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+        tags:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        publication_date:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        description:
+          minLength: 20
+          type: string
+        validation_date:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        isValidated:
+          type: boolean
+        isArchived:
+          type: boolean
+        publicationDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        validationDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+    Item.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      required:
+        - creator
+        - name
+        - isValidated
+        - isArchived
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        creator:
+          'owl:maxCardinality': 1
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+        validator:
+          'owl:maxCardinality': 1
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+        tags:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        publication_date:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        description:
+          minLength: 20
+          type: string
+        validation_date:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        isValidated:
+          type: boolean
+        isArchived:
+          type: boolean
+        publicationDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        validationDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+    Tag:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        items:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+    Tag.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        items:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+    User:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        createdItems:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        validatedItems:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        id:
+          readOnly: true
+          type: integer
+        username:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        password:
+          description: 'The hashed password'
+          type: string
+        role:
+          type: string
+        firstname:
+          type: string
+        surname:
+          type: string
+        countryCode:
+          type: string
+        userIdentifier:
+          readOnly: true
+          description: 'A visual identifier that represents this user.'
+          type: string
+    User.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        createdItems:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        validatedItems:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        id:
+          readOnly: true
+          type: integer
+        username:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        password:
+          description: 'The hashed password'
+          type: string
+        role:
+          type: string
+        firstname:
+          type: string
+        surname:
+          type: string
+        countryCode:
+          type: string
+        userIdentifier:
+          readOnly: true
+          description: 'A visual identifier that represents this user.'
+          type: string
+  responses: {  }
+  parameters: {  }
+  examples: {  }
+  requestBodies: {  }
+  headers: {  }
+  securitySchemes: {  }
+security: []
+tags: []
