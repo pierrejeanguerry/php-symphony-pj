@@ -41,5 +41,15 @@ class LoginControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
-    
+
+    public function testLogout()
+    {
+        $this->client->request('GET', 'https://localhost:8000/logout');
+
+        $this->assertTrue($this->client->getResponse()->isRedirect('https://localhost:8000/'));
+
+        $this->client->followRedirect();
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    }
 }
